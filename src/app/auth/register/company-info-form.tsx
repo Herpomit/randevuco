@@ -31,17 +31,28 @@ import { cn } from "@/lib/utils";
 
 import cities from "@/data/cities.json";
 import sectors from "@/data/sectors.json";
+import { toast } from "@/hooks/use-toast";
+import { createCompany } from "./create-company-action";
+import { useRouter } from "next/navigation";
 
 const formSchema = z.object({
   companyName: z.string().min(1, "Boş Bırakılamaz").max(255),
   companyPhone: z
     .string()
-    .regex(/^\+90 $$\d{3}$$ \d{3} \d{2} \d{2}$/, "Geçersiz telefon numarası"),
+    .regex(/^\+90 \(\d{3}\) \d{3} \d{2} \d{2}$/, "Geçersiz telefon numarası"),
   sector: z.string().min(1, "Boş Bırakılamaz").max(255),
   city: z.string().min(1, "Boş Bırakılamaz").max(255),
 });
 
-export function CompanyInfoForm() {
+
+
+interface CompanyInfoFormProps {
+  location: { lat: number; lng: number } | null;
+  userUuid: string
+}
+
+export function CompanyInfoForm({ location, userUuid }: CompanyInfoFormProps) {
+  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -53,8 +64,52 @@ export function CompanyInfoForm() {
   });
 
   async function registerSubmit(values: z.infer<typeof formSchema>) {
-    console.log("Submitted Values:", values);
-    // Implement your submission logic here
+    if (!location || location?.lat === 0 || location?.lng === 0) {
+      toast({
+        title: "Hata",
+        description: "Lokasyon bilgileri eksik",
+        variant: "destructive",
+      })
+      return;
+    }
+
+    if (!userUuid) {
+      toast({
+        title: "Hata",
+        description: "Kullanıcı bilgileri eksik",
+        variant: "destructive",
+      })
+      return;
+    }
+
+    const response = await createCompany({
+      userUuid: userUuid,
+      name: values.companyName,
+      phone: values.companyPhone,
+      location_lat: location ? location.lat.toString() : "0",
+      location_long: location ? location.lng.toString() : "0",
+      sector: values.sector,
+      city: values.city,
+    });
+
+    if (response.status) {
+      toast({
+        title: "Success",
+        description: response.message,
+        variant: "success",
+      });
+
+      setTimeout(() => {
+        router.push("/auth/login");
+      }, 2000);
+
+    } else {
+      toast({
+        title: "Error",
+        description: response.message,
+        variant: "destructive",
+      });
+    }
   }
 
   return (
@@ -223,7 +278,7 @@ export function CompanyInfoForm() {
         />
 
         <Button
-          className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base font-semibold w-full "
+          className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base font-semibold w-full  "
           type="submit"
         >
           Devam Et <ArrowRight className="ml-1 w-4 h-4 font-bold" />

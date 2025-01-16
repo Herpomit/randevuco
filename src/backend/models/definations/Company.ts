@@ -1,7 +1,7 @@
 import { db } from "@/backend/db";
 import { DataTypes, Model } from "sequelize";
 
-class Company extends Model {}
+class Company extends Model { }
 
 Company.init(
   {
@@ -23,9 +23,17 @@ Company.init(
       type: DataTypes.STRING,
       allowNull: false,
     },
-    location: {
+    sector: {
       type: DataTypes.STRING,
-      allowNull: true,
+      allowNull: false,
+    },
+    location_lat: {
+      type: DataTypes.STRING,
+      allowNull: false,
+    },
+    location_long: {
+      type: DataTypes.STRING,
+      allowNull: false,
     },
     userUuid: {
       type: DataTypes.CHAR(36),

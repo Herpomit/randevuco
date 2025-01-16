@@ -47,6 +47,7 @@ export const register = async (newUser: RegisterType) => {
     return CustomeResponse({
       status: true,
       message: "User created successfully",
+      data: user.dataValues.uuid
     });
   } catch (error) {
     if (error instanceof Error) {

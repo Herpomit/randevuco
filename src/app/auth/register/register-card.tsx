@@ -10,7 +10,12 @@ import Logo from "../../../components/specials/logo";
 import Link from "next/link";
 import { RegisterForm } from "./register-form";
 
-export default function RegisterCard() {
+interface Props {
+  setStep: (step: number) => void;
+  setUuid: (uuid: string) => void;
+}
+
+export default function RegisterCard({ setStep, setUuid }: Props) {
   return (
     <>
       <Card className="shadow-inner w-full max-w-lg rounded-2xl ">
@@ -26,7 +31,7 @@ export default function RegisterCard() {
           </div>
         </CardHeader>
         <CardContent>
-          <RegisterForm />
+          <RegisterForm setStep={setStep} setUuid={setUuid} />
         </CardContent>
         <CardFooter className="w-full flex flex-col items-center justify-center gap-y-4">
           <div className=" text-center text-sm">

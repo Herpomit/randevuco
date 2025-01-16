@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { QueryTypes } from "sequelize";
 import { db } from "../db";
-import { Company, User } from "../models";
+import { Company, Service, User } from "../models";
 
 const models = [
   {
@@ -12,6 +12,10 @@ const models = [
     name: "Comapny",
     model: Company,
   },
+  {
+    name: "Service",
+    model: Service,
+  }
 ];
 
 export const initDatabase = async () => {

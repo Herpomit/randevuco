@@ -1,6 +1,5 @@
-"use client";
-
-import React, { useRef, useEffect, useState } from "react";
+"use client";;
+import { useRef, useEffect, useState } from "react";
 import "ol/ol.css";
 import Map from "ol/Map";
 import View from "ol/View";
@@ -12,14 +11,17 @@ import Point from "ol/geom/Point";
 import VectorLayer from "ol/layer/Vector";
 import VectorSource from "ol/source/Vector";
 import { Style, Icon } from "ol/style";
-import Logo from "@/components/specials/logo";
+import { Card } from "@/components/ui/card";
+import { MapPin } from "lucide-react";
 
-const LocationPicker = () => {
+interface LocationPickerProps {
+  setPosition: (position: { lat: number; lng: number } | null) => void;
+}
+
+const LocationPicker = ({ setPosition }: LocationPickerProps) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [map, setMap] = useState<Map | null>(null);
-  const [position, setPosition] = useState<{ lat: number; lng: number } | null>(
-    null
-  );
+
 
   useEffect(() => {
     if (!mapRef.current) return;
@@ -75,33 +77,27 @@ const LocationPicker = () => {
     }, 100);
   }, [map]);
 
+  useEffect(() => {
+    if (!map) return;
+    setTimeout(() => {
+      map.updateSize();
+    }, 100);
+  }, [map]);
+
   return (
-    <div className="w-full h-dvh  flex flex-col justify-center items-center gap-4 ">
-      <div className="flex flex-row items-center gap-2 font-bold mt-4">
-        <div className="flex h-12 w-12 md:h-24 md:w-24 items-center justify-center rounded-md">
-          <Logo className="" />
-        </div>
-        <span className="text-2xl md:text-6xl">RandevuCo</span>
+
+
+    <Card className="overflow-hidden w-full h-full shadow-lg">
+      <div className="p-6 pb-0">
+        <h2 className="flex items-center gap-2 text-lg font-semibold">
+          <MapPin className="h-5 w-5 text-primary" />
+          Lütfen işletme lokasyonu seçiniz
+        </h2>
       </div>
-      <h1 className="text-xl md:text-4xl font-bold">
-        Lütfen işletme lokasyonu seçiniz
-      </h1>
-      <div ref={mapRef} className="w-full h-[50rem] border-none "></div>
-      {position && (
-        <div className="mt-4">
-          <p>Seçilen Konum:</p>
-          <p>Enlem: {position.lat}</p>
-          <p>Boylam: {position.lng}</p>
-          <a
-            href={`https://www.google.com/maps?q=${position.lat},${position.lng}`}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Harita Linki
-          </a>
-        </div>
-      )}
-    </div>
+      <div className="relative mt-4 h-[30rem] lg:h-[40rem] w-full">
+        <div ref={mapRef} className="absolute inset-0 mt-4 h-[30rem] lg:h-[40rem] w-full border-0"></div>
+      </div>
+    </Card >
   );
 };
 

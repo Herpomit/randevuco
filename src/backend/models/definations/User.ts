@@ -1,7 +1,7 @@
 import { db } from "@/backend/db";
 import { DataTypes, Model } from "sequelize";
 
-class User extends Model {}
+class User extends Model { }
 
 User.init(
   {
@@ -27,6 +27,11 @@ User.init(
       type: DataTypes.TEXT("long"),
       allowNull: false,
     },
+    isCompanyCreated: {
+      type: DataTypes.BOOLEAN,
+      allowNull: false,
+      defaultValue: false,
+    }
   },
   {
     sequelize: db,

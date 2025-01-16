@@ -1,7 +1,8 @@
 import Company from "./definations/Company";
+import Service from "./definations/Service";
 import User from "./definations/User";
 
-export { User, Company };
+export { User, Company, Service };
 
 User.hasOne(Company, {
   foreignKey: "userUuid",
@@ -13,6 +14,18 @@ Company.belongsTo(User, {
   foreignKey: "userUuid",
   targetKey: "uuid",
   as: "user",
+});
+
+Company.hasMany(Service, {
+  foreignKey: "companyUuid",
+  sourceKey: "uuid",
+  as: "services",
+});
+
+Service.belongsTo(Company, {
+  foreignKey: "companyUuid",
+  targetKey: "uuid",
+  as: "company",
 });
 
 // OfficeUser.hasMany(DiscountCode, {

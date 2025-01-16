@@ -31,7 +31,12 @@ const formSchema = z
     path: ["confirmPassword"], // Hata 'confirmPassword' alanına eklenir
   });
 
-export function RegisterForm() {
+interface Props {
+  setStep: (step: number) => void;
+  setUuid: (uuid: string) => void;
+}
+
+export function RegisterForm({ setStep, setUuid }: Props) {
   const { toast } = useToast();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -56,12 +61,14 @@ export function RegisterForm() {
       });
 
       if (response.status) {
-        toast({
-          title: "Success",
-          description: response.message,
-          variant: "success",
-        });
+        // toast({
+        //   title: "Success",
+        //   description: response.message,
+        //   variant: "success",
+        // });
+        setUuid(response.data);
         form.reset();
+        setStep(2);
         // setTimeout(() => {
         //   router.push("/auth/login");
         // }, 2000);
