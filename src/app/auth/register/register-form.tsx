@@ -15,7 +15,6 @@ import {
 import { Input } from "@/components/ui/input";
 import { register } from "../../../backend/actions/auth-actions";
 import { useToast } from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
 import { ArrowRight } from "lucide-react";
 const formSchema = z
   .object({
@@ -34,7 +33,6 @@ const formSchema = z
 
 export function RegisterForm() {
   const { toast } = useToast();
-  const router = useRouter();
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {

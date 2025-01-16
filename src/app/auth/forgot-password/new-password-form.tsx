@@ -90,7 +90,7 @@ export function NewPasswordForm() {
           />
           <Link href="/auth/login" className="w-full ">
             <Button
-              className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base font-semibold w-full"
+              className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base font-semibold w-full "
               type="submit"
             >
               Devam Et

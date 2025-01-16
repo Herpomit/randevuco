@@ -1,12 +1,9 @@
-import { ConditionalSidebar } from "@/components/dashboard/sidebar/conditional-sidebar";
 import "./globals.css";
 
 import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import { Toaster } from "@/components/ui/toaster";
-import { ThemeProvider } from "@/components/light-dark-toggle/theme-provider";
-import "@mantine/core/styles.css";
-import { MantineProvider } from "@mantine/core";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -32,14 +29,8 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        <MantineProvider>
-          <ThemeProvider attribute="class" defaultTheme="light" enableSystem>
-            <ConditionalSidebar>
-              {children}
-              <Toaster />
-            </ConditionalSidebar>
-          </ThemeProvider>
-        </MantineProvider>
+        {children}
+        <Toaster />
       </body>
     </html>
   );

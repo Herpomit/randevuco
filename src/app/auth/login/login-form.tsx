@@ -67,7 +67,7 @@ export function LoginForm() {
                   E-posta
                 </FormLabel>
                 <FormControl>
-                  <Input className="h-10 shadow-inner" {...field} />
+                  <Input className="h-12 shadow-inner" {...field} />
                 </FormControl>
 
                 <FormMessage />
@@ -89,7 +89,7 @@ export function LoginForm() {
 
                 <FormControl>
                   <Input
-                    className="h-10 shadow-inner"
+                    className="h-12 shadow-inner"
                     type="password"
                     {...field}
                   />
@@ -106,7 +106,7 @@ export function LoginForm() {
             Şifremi Unuttum
           </Link>
           <Button
-            className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base font-semibold "
+            className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base font-semibold h-12"
             type="submit"
           >
             Giriş Yap

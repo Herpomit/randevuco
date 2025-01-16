@@ -54,7 +54,7 @@ export function ForgotPasswordForm() {
           />
 
           <Button
-            className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base font-semibold "
+            className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base font-semibold"
             type="submit"
           >
             Kod Al

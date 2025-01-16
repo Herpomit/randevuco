@@ -41,17 +41,17 @@ const data = {
     },
     {
       title: "Hizmetler",
-      url: "/profile",
+      url: "/services",
       icon: NotebookText,
     },
     {
       title: "Personel",
-      url: "#",
+      url: "/employees",
       icon: Users,
     },
     {
       title: "Performans",
-      url: "#",
+      url: "/performance",
       icon: ChartSpline,
     },
   ],
