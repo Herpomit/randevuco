@@ -88,20 +88,12 @@ export function EditServiceForm() {
             )}
           />
 
-          <div className="grid grid-cols-2 gap-4">
-            <Button
-              className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base w-full font-semibold "
-              type="submit"
-            >
-              Düzenle
-            </Button>
-            <Button
-              className="bg-[#ff3636] hover:bg-[#c72c2c] text-white text-base w-full font-semibold "
-              type="submit"
-            >
-              Sil
-            </Button>
-          </div>
+          <Button
+            className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base w-full font-semibold "
+            type="submit"
+          >
+            Düzenle
+          </Button>
         </div>
       </form>
     </Form>
