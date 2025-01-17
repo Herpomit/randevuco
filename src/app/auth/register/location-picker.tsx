@@ -1,4 +1,4 @@
-"use client";;
+"use client";
 import { useRef, useEffect, useState } from "react";
 import "ol/ol.css";
 import Map from "ol/Map";
@@ -22,12 +22,13 @@ const LocationPicker = ({ setPosition }: LocationPickerProps) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
   const [map, setMap] = useState<Map | null>(null);
 
-
   useEffect(() => {
-    if (!mapRef.current) return;
+    if (!mapRef.current) return; // Eğer mapRef.current null ise işlemi durdur
+
+    const targetElement = mapRef.current; // mapRef.current'i bir değişkende sakla
 
     const initialMap = new Map({
-      target: mapRef.current,
+      target: targetElement, // null olamayacağından emin olduğumuz değişkeni kullan
       layers: [
         new TileLayer({
           source: new OSM(),
@@ -39,20 +40,14 @@ const LocationPicker = ({ setPosition }: LocationPickerProps) => {
       }),
     });
 
-    setMap(initialMap);
-  }, []);
-
-  useEffect(() => {
-    if (!map) return;
-
     const vectorSource = new VectorSource();
     const markerLayer = new VectorLayer({
       source: vectorSource,
     });
 
-    map.addLayer(markerLayer);
+    initialMap.addLayer(markerLayer);
 
-    map.on("click", (event) => {
+    initialMap.on("click", (event) => {
       const coords = toLonLat(event.coordinate);
       const [lng, lat] = coords;
       setPosition({ lat, lng });
@@ -72,21 +67,15 @@ const LocationPicker = ({ setPosition }: LocationPickerProps) => {
       vectorSource.addFeature(marker);
     });
 
-    setTimeout(() => {
-      map.updateSize(); // Haritanın boyutlarını güncelle
-    }, 100);
-  }, [map]);
+    setMap(initialMap);
 
-  useEffect(() => {
-    if (!map) return;
-    setTimeout(() => {
-      map.updateSize();
-    }, 100);
-  }, [map]);
+    return () => {
+      initialMap.setTarget(undefined); // Temizlik işlemleri
+    };
+  }, [mapRef, setPosition]);
+
 
   return (
-
-
     <Card className="overflow-hidden w-full h-full shadow-lg">
       <div className="p-6 pb-0">
         <h2 className="flex items-center gap-2 text-lg font-semibold">
@@ -97,7 +86,7 @@ const LocationPicker = ({ setPosition }: LocationPickerProps) => {
       <div className="relative mt-4 h-[30rem] lg:h-[40rem] w-full">
         <div ref={mapRef} className="absolute inset-0 mt-4 h-[30rem] lg:h-[40rem] w-full border-0"></div>
       </div>
-    </Card >
+    </Card>
   );
 };
 

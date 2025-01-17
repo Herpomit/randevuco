@@ -88,7 +88,7 @@ export function AddServiceForm() {
             )}
           />
           <Button
-            className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base w-full font-semibold "
+            className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base w-full font-semibold h-16"
             type="submit"
           >
             Ekle

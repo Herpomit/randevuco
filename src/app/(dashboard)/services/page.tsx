@@ -8,7 +8,7 @@ export default function ServicesPage() {
   return (
     <>
       <PageContainer title="Hizmetler">
-        <div className="grid grid-cols-[1fr_2fr] gap-4 pt-2">
+        <div className="grid grid-cols-1 md:grid-cols-[1fr_2fr] gap-4 pt-2">
           <DashboardCard icon={<CirclePlus />} title="Yeni Hizmet Ekle">
             <AddServiceForm />
           </DashboardCard>

@@ -18,7 +18,7 @@ export default function PageContainer({ title, children }: PageContainerProps) {
       <div className="flex flex-col w-full">
         <header className="flex  h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">
           <div className="flex items-center justify-between gap-2 px-4 bg-muted w-full p-2 mx-4 rounded-lg">
-            <Breadcrumb className="bg-red-500">
+            <Breadcrumb>
               <BreadcrumbList>
                 <BreadcrumbItem>
                   <BreadcrumbPage>{title}</BreadcrumbPage>

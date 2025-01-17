@@ -33,7 +33,7 @@ export default function Page() {
     {
       title: "Saç Kesimi - Ahmet",
       start: "2025-01-17T10:00:00",
-      end: "2024-01-17T11:00:00",
+      end: "2024-01-17T10:10:00",
       backgroundColor: "#E5FE54",
       textColor: "#000000",
       borderColor: "#E5FE54",
@@ -64,11 +64,12 @@ export default function Page() {
       const newEvent: CalendarEvent = {
         title,
         start: arg.date.toISOString(),
-        end: new Date(arg.date.getTime() + 60 * 60 * 1000).toISOString(), // 1 saat süre
+        end: new Date(arg.date.getTime() + 60 * 60 * 10).toISOString(), // 1 saat süre
         backgroundColor: "#E5FE54",
         textColor: "#000000",
         borderColor: "#E5FE54",
         allDay: arg.allDay,
+
       };
       setEvents([...events, newEvent]);
     }

@@ -15,9 +15,10 @@ import ModalContainer from "@/components/modals/modal-container";
 interface Props {
   setStep: (step: number) => void;
   userUuid: string;
+  step: number;
 }
 
-export default function CompanyInfoCard({ userUuid }: Props) {
+export default function CompanyInfoCard({ userUuid, step }: Props) {
   const [position, setPosition] = useState<{ lat: number; lng: number } | null>(
     null
   );
