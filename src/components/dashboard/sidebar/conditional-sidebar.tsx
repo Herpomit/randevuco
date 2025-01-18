@@ -1,6 +1,5 @@
 // components/ConditionalSidebar.tsx
-"use client";
-
+"use client";;
 import { ReactNode } from "react";
 import { usePathname } from "next/navigation";
 import { SidebarProvider } from "@/components/ui/sidebar";
@@ -13,6 +12,7 @@ export function ConditionalSidebar({ children }: { children: ReactNode }) {
     "/auth/register",
     "/auth/forgot-password",
   ].includes(pathname);
+
 
   return hideSidebar ? (
     <>{children}</>

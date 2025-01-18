@@ -12,6 +12,7 @@ import {
 
 export type Employee = {
   name: string;
+  phone: string;
 };
 
 interface EmployeeListProps {
@@ -32,6 +33,7 @@ export default function EmployeeList({
       <TableHeader>
         <TableRow>
           <TableHead>Ad Soyad</TableHead>
+          <TableHead>Telefon</TableHead>
           <TableHead>Renk</TableHead>
         </TableRow>
       </TableHeader>
@@ -44,11 +46,12 @@ export default function EmployeeList({
               onEmployeeSelect(service);
               setSelectedEmployeeId(index);
             }}
-            className={`cursor-pointer hover:bg-gray-100 ${
-              selectedEmployeeId === index ? "bg-muted" : ""
-            }`}
+            className={`cursor-pointer hover:bg-gray-100 ${selectedEmployeeId === index ? "bg-muted" : ""
+              }`}
           >
+
             <TableCell>{service.name}</TableCell>
+            <TableCell>+90 (545) 545 45 45</TableCell>
             <TableCell>
               <div className=" bg-blue-400 h-6 w-6 rounded-full"></div>
             </TableCell>

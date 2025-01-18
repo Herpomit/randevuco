@@ -1,6 +1,5 @@
 "use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -9,54 +8,69 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import { useServiceStore } from "@/stores/useServiceStore";
+import useUserDataStore from "@/stores/useUserDataStore";
+import { ScrollArea } from "@/components/ui/scroll-area";
 
-export type Service = {
-  name: string;
-  duration: string;
-  price: string;
-};
+export default function ServicesList() {
+  const { fetchServices, services, setSelectedService } = useServiceStore();
+  const { userData } = useUserDataStore();
 
-interface ServicesListProps {
-  services: Service[];
-  onServiceSelect: (service: Service) => void;
-}
-
-export default function ServicesList({
-  services,
-  onServiceSelect,
-}: ServicesListProps) {
   const [selectedServiceId, setSelectedServiceId] = useState<number | null>(
     null
   );
 
-  return (
-    <Table>
-      <TableHeader>
-        <TableRow>
-          <TableHead>Hizmet Adı</TableHead>
-          <TableHead>Süresi (dk.)</TableHead>
-          <TableHead>Hizmet Fiyatı (₺)</TableHead>
-        </TableRow>
-      </TableHeader>
+  useEffect(() => {
+    async function fetchData() {
+      if (userData?.companyUuid) {
+        await fetchServices(userData.companyUuid);
+      }
+    }
+    fetchData();
+  }, [fetchServices, userData]);
 
-      <TableBody>
-        {services.map((service, index) => (
-          <TableRow
-            key={index}
-            onClick={() => {
-              onServiceSelect(service);
-              setSelectedServiceId(index);
-            }}
-            className={`cursor-pointer hover:bg-gray-100 ${
-              selectedServiceId === index ? "bg-muted" : ""
-            }`}
-          >
-            <TableCell>{service.name}</TableCell>
-            <TableCell>{service.duration}</TableCell>
-            <TableCell>{service.price}</TableCell>
+  if (userData?.companyUuid === null) return <p>Lütfen Şirket bilgilerinizi giriniz!</p>;
+
+  return (
+    <div className="relative">
+      <Table>
+        <TableHeader>
+          <TableRow>
+            <TableHead>Hizmet Adı</TableHead>
+            <TableHead>Süresi (dk.)</TableHead>
+            <TableHead>Hizmet Fiyatı (₺)</TableHead>
           </TableRow>
-        ))}
-      </TableBody>
-    </Table>
+        </TableHeader>
+      </Table>
+
+      <ScrollArea className="h-[20rem] w-full">
+        <Table>
+          <TableBody>
+            {services.length > 0 ? (
+              services.map((service, index) => (
+                <TableRow
+                  key={index}
+                  onClick={() => {
+                    setSelectedServiceId(index);
+                    setSelectedService(service);
+                  }}
+                  className={`cursor-pointer hover:bg-gray-100 ${selectedServiceId === index ? "bg-muted" : ""
+                    }`}
+                >
+                  <TableCell>{service.name}</TableCell>
+                  <TableCell>{service.duration}</TableCell>
+                  <TableCell>{service.price}</TableCell>
+                </TableRow>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={3}>Hizmet bulunamadı</TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </ScrollArea>
+    </div>
   );
 }
+

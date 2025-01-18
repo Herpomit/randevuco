@@ -18,11 +18,11 @@ Service.init({
         allowNull: false,
     },
     price: {
-        type: DataTypes.STRING,
+        type: DataTypes.DECIMAL(10, 2),
         allowNull: false,
     },
-    time: {
-        type: DataTypes.STRING,
+    duration: {
+        type: DataTypes.INTEGER,
         allowNull: false,
     },
     companyUuid: {

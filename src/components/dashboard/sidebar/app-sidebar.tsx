@@ -2,10 +2,14 @@
 
 import * as React from "react";
 import {
+
   CalendarDays,
   ChartSpline,
+  CircleUserRound,
   GalleryVerticalEnd,
   NotebookText,
+  Lock,
+  Store,
   Users,
 } from "lucide-react";
 
@@ -22,8 +26,8 @@ import { NavUser } from "./nav-user";
 // This is sample data.
 const data = {
   user: {
-    name: "shadcn",
-    email: "m@example.com",
+    name: "Ezca Software",
+    email: "Veysel Ezelhan Evcil",
     avatar: "/avatars/shadcn.jpg",
   },
   teams: [
@@ -39,21 +43,37 @@ const data = {
       url: "/",
       icon: CalendarDays,
     },
+    // {
+    //   title: "Online Mağaza",
+    //   url: "/online-shop",
+    //   icon: Store,
+    // },
     {
       title: "Hizmetler",
       url: "/services",
       icon: NotebookText,
     },
     {
+      title: "Müşteriler",
+      url: "/customers",
+      icon: CircleUserRound,
+    },
+    {
       title: "Personel",
       url: "/employees",
       icon: Users,
     },
+    // {
+    //   title: "Kasa",
+    //   url: "/case",
+    //   icon: Lock,
+    // },
     {
       title: "Performans",
       url: "/performance",
       icon: ChartSpline,
     },
+
   ],
 };
 

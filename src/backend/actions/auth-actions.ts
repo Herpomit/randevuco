@@ -2,7 +2,7 @@
 
 import LoginType from "@/backend/interfaces/login-type";
 import RegisterType from "@/backend/interfaces/register-type";
-import { User } from "@/backend/models";
+import { Company, User } from "@/backend/models";
 import createToken from "@/helpers/create-token";
 import { DataCrypt, DataDecrypt } from "@/helpers/data-cryptor";
 import CustomeResponse from "@/helpers/response-message";
@@ -89,11 +89,26 @@ export const login = async (user: LoginType) => {
       });
     }
 
+    const companyUuid = await Company.findOne({
+      where: {
+        userUuid: existUser.dataValues.uuid,
+      },
+    });
+
+    if (!companyUuid) {
+      return CustomeResponse({
+        status: false,
+        message: "Kullanıcı zaten bir firma kaydı var",
+      });
+    }
+
     const payload = {
       uuid: existUser.dataValues.uuid,
-      email: await DataDecrypt(existUser.dataValues.email),
+      email: existUser.dataValues.email,
       name: await DataDecrypt(existUser.dataValues.name),
       phone: await DataDecrypt(existUser.dataValues.phone),
+      isCompanyCreated: existUser.dataValues.isCompanyCreated,
+      companyUuid: companyUuid.dataValues.uuid
     };
 
     const token = await createToken(payload);

@@ -22,9 +22,9 @@ interface EmployeeBlockListProps {
   onEmployeeBlockSelect: (service: EmployeeBlock) => void;
 }
 
-export default function EmployeeBlockBlockList({}: //   employeeBlocks,
-//   onEmployeeBlockSelect,
-EmployeeBlockListProps) {
+export default function EmployeeBlockBlockList({ }: //   employeeBlocks,
+  //   onEmployeeBlockSelect,
+  EmployeeBlockListProps) {
   //   const [selectedEmployeeBlockId, setSelectedEmployeeBlockId] = useState<
   //     number | null
   //   >(null);
@@ -66,10 +66,10 @@ EmployeeBlockListProps) {
         </Table>*/}
         <ModalContainer
           button={
-            <Button type="submit" className="text-base w-96  bottom-0">
-              <UserRoundX />
+            <div className="text-base bg-black hover:bg-neutral-800 text-white flex items-center justify-center  py-1 h-9 rounded-lg w-96  bottom-0 ">
+              <UserRoundX className="w-4 h-4 mr-2" />
               Personel Blokla
-            </Button>
+            </div>
           }
           title="Yeni Bloklama"
         >

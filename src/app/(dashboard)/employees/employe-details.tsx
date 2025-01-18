@@ -39,7 +39,7 @@ export default function EmployeeDetails() {
             <EmployeeShiftForm />
             <EmployeeBlockList
               employeeBlocks={[]}
-              onEmployeeBlockSelect={() => {}}
+              onEmployeeBlockSelect={() => { }}
             />
           </TabsContent>
           <TabsContent value="permissions">

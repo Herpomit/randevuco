@@ -14,24 +14,53 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Plus } from "lucide-react";
+import useUserDataStore from "@/stores/useUserDataStore";
+import { createService } from "./services-action";
+import { toast } from "@/hooks/use-toast";
+import { useServiceStore } from "@/stores/useServiceStore";
 const formSchema = z.object({
-  serviceName: z.string().min(1).max(255),
-  serviceTime: z.string().min(1).max(255),
-  servicePrice: z.string().min(1).max(255),
+  name: z.string().min(1, "Hizmet adı gereklidir.").max(255, "Hizmet adı 255 karakterden uzun olamaz."),
+  duration: z
+    .string()
+    .refine((val) => !isNaN(Number(val)), "Süre bir sayı olmalıdır.")
+    .transform((val) => Number(val)), // Stringi sayıya çevirir
+  price: z
+    .string()
+    .refine((val) => !isNaN(Number(val.replace(",", "."))), "Fiyat bir sayı olmalıdır.")
+    .transform((val) => parseFloat(val.replace(",", "."))), // Virgülü noktaya çevirip sayıya çevirir
 });
 
+
 export function AddServiceForm() {
+  const { userData } = useUserDataStore();
+  const { fetchServices } = useServiceStore();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      serviceName: "",
-      serviceTime: "",
-      servicePrice: "",
+      name: "",
+      duration: 30, // Varsayılan 30 dakika
+      price: 0, // Varsayılan fiyat 0
     },
   });
 
-  function onSubmit(values: z.infer<typeof formSchema>) {
-    console.log(values);
+  async function onSubmit(values: z.infer<typeof formSchema>) {
+    const response = await createService(values, userData!.companyUuid!);
+    if (response.status) {
+      toast({
+        title: "Success",
+        description: response.message,
+        variant: "success",
+      });
+      form.reset();
+      fetchServices(userData!.companyUuid!, true);
+    } else {
+      toast({
+        title: "Error",
+        description: response.message,
+        variant: "destructive",
+      });
+    }
   }
 
   return (
@@ -40,7 +69,7 @@ export function AddServiceForm() {
         <div className="grid grid-cols-1 gap-4  pt-4">
           <FormField
             control={form.control}
-            name="serviceName"
+            name="name"
             render={({ field }) => (
               <FormItem>
                 <FormLabel className="font-semibold text-base">
@@ -57,16 +86,20 @@ export function AddServiceForm() {
 
           <FormField
             control={form.control}
-            name="serviceTime"
+            name="duration"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold text-base">
-                  Hizmet Süresi
-                </FormLabel>
+                <FormLabel className="font-semibold text-base">Hizmet Süresi (Dakika)</FormLabel>
                 <FormControl>
-                  <Input className="h-10 shadow-inner" {...field} />
+                  <Input
+                    {...field}
+                    type="number"
+                    step="1"
+                    min="1"
+                    max="1440"
+                    onChange={(e) => field.onChange(e.target.value)} // Değeri string olarak işliyoruz
+                  />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
@@ -74,16 +107,17 @@ export function AddServiceForm() {
 
           <FormField
             control={form.control}
-            name="servicePrice"
+            name="price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold text-base">
-                  Hizmet Fiyatı
-                </FormLabel>
+                <FormLabel className="font-semibold text-base">Hizmet Fiyatı (₺)</FormLabel>
                 <FormControl>
-                  <Input className="h-10 shadow-inner" {...field} />
+                  <Input
+                    {...field}
+                    type="text" // Virgül kullanımı için type="text" olarak bırakıyoruz
+                    onChange={(e) => field.onChange(e.target.value.replace(",", "."))} // Girdide otomatik olarak virgülü noktaya çevir
+                  />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
