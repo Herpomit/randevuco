@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useEffect, useState } from "react";
+import { useRef, useEffect } from "react";
 import "ol/ol.css";
 import Map from "ol/Map";
 import View from "ol/View";
@@ -20,7 +20,7 @@ interface LocationPickerProps {
 
 const LocationPicker = ({ setPosition }: LocationPickerProps) => {
   const mapRef = useRef<HTMLDivElement | null>(null);
-  const [map, setMap] = useState<Map | null>(null);
+  // const [setMap] = useState<Map | null>(null);
 
   useEffect(() => {
     if (!mapRef.current) return; // Eğer mapRef.current null ise işlemi durdur
@@ -67,13 +67,12 @@ const LocationPicker = ({ setPosition }: LocationPickerProps) => {
       vectorSource.addFeature(marker);
     });
 
-    setMap(initialMap);
+    // setMap(initialMap);
 
     return () => {
       initialMap.setTarget(undefined); // Temizlik işlemleri
     };
   }, [mapRef, setPosition]);
-
 
   return (
     <Card className="overflow-hidden w-full h-full shadow-lg">
@@ -84,7 +83,10 @@ const LocationPicker = ({ setPosition }: LocationPickerProps) => {
         </h2>
       </div>
       <div className="relative mt-4 h-[30rem] lg:h-[40rem] w-full">
-        <div ref={mapRef} className="absolute inset-0 mt-4 h-[30rem] lg:h-[40rem] w-full border-0"></div>
+        <div
+          ref={mapRef}
+          className="absolute inset-0 mt-4 h-[30rem] lg:h-[40rem] w-full border-0"
+        ></div>
       </div>
     </Card>
   );

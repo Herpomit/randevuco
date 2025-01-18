@@ -13,6 +13,7 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { Plus } from "lucide-react";
 const formSchema = z.object({
   serviceName: z.string().min(1).max(255),
   serviceTime: z.string().min(1).max(255),
@@ -88,9 +89,10 @@ export function AddServiceForm() {
             )}
           />
           <Button
-            className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base w-full font-semibold h-16"
+            className="bg-[#6857f6] text-white hover:bg-[#5648C9] text-base w-full  "
             type="submit"
           >
+            <Plus className="" />
             Ekle
           </Button>
         </div>

@@ -69,7 +69,6 @@ export default function Page() {
         textColor: "#000000",
         borderColor: "#E5FE54",
         allDay: arg.allDay,
-
       };
       setEvents([...events, newEvent]);
     }
@@ -102,7 +101,7 @@ export default function Page() {
                 Bugün
               </Button>
               <Button
-                className="bg-[#E5FE54] text-black hover:bg-[#d8f047]"
+                className="bg-[#6857f6] text-white hover:bg-[#5648C9]"
                 onClick={() => {
                   const now = new Date();
                   handleDateClick({

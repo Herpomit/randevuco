@@ -47,7 +47,10 @@ export function NavMain({
                   isActive={activeItem === item.title}
                   onClick={() => handleButtonClick(item.title)}
                 >
-                  {item.icon && <item.icon />}
+                  <div className="pr-2">
+                    {item.icon && <item.icon className="w-5 h-5" />}
+                  </div>
+
                   <span>{item.title}</span>
                 </SidebarMenuButton>
               </Link>

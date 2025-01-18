@@ -106,7 +106,7 @@ export function LoginForm() {
             Şifremi Unuttum
           </Link>
           <Button
-            className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base font-semibold h-12"
+            className="bg-[#deff36] hover:bg-[#c4e12f] text-black text-base font-semibold"
             type="submit"
           >
             Giriş Yap

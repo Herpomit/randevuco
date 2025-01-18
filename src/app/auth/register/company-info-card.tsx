@@ -18,7 +18,7 @@ interface Props {
   step: number;
 }
 
-export default function CompanyInfoCard({ userUuid, step }: Props) {
+export default function CompanyInfoCard({ userUuid }: Props) {
   const [position, setPosition] = useState<{ lat: number; lng: number } | null>(
     null
   );
