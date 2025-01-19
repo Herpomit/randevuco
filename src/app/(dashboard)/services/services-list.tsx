@@ -29,7 +29,8 @@ export default function ServicesList() {
     fetchData();
   }, [fetchServices, userData]);
 
-  if (userData?.companyUuid === null) return <p>Lütfen Şirket bilgilerinizi giriniz!</p>;
+  if (userData?.companyUuid === null)
+    return <p>Lütfen Şirket bilgilerinizi giriniz!</p>;
 
   return (
     <div className="relative">
@@ -54,8 +55,9 @@ export default function ServicesList() {
                     setSelectedServiceId(index);
                     setSelectedService(service);
                   }}
-                  className={`cursor-pointer hover:bg-gray-100 ${selectedServiceId === index ? "bg-muted" : ""
-                    }`}
+                  className={`cursor-pointer hover:bg-gray-100 ${
+                    selectedServiceId === index ? "bg-muted" : ""
+                  }`}
                 >
                   <TableCell>{service.name}</TableCell>
                   <TableCell>{service.duration}</TableCell>
@@ -73,4 +75,3 @@ export default function ServicesList() {
     </div>
   );
 }
-

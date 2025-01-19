@@ -14,13 +14,13 @@ export default function EmployeesPage() {
   //   );
 
   const employees: Employee[] = [
-    { name: "Serdar Tezcan" },
-    { name: "Osman Gültekin" },
-    { name: "Ezel Evcil" },
-    { name: "Kaan Çetin" },
-    { name: "Umut Kaya" },
-    { name: "Serhat Kaya" },
-    { name: "Beyza Kaya" },
+    { name: "Serdar Tezcan", phone: "0555 555 55 55" },
+    { name: "Osman Gültekin", phone: "0555 555 55 55" },
+    { name: "Ezel Evcil", phone: "0555 555 55 55" },
+    { name: "Kaan Çetin", phone: "0555 555 55 55" },
+    { name: "Umut Kaya", phone: "0555 555 55 55" },
+    { name: "Serhat Kaya", phone: "0555 555 55 55" },
+    { name: "Beyza Kaya", phone: "0555 555 55 55" },
   ];
 
   //   const handleEmployeeSelect = (employee: Employee) => {

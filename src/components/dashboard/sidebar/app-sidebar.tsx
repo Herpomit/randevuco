@@ -2,14 +2,11 @@
 
 import * as React from "react";
 import {
-
   CalendarDays,
   ChartSpline,
   CircleUserRound,
   GalleryVerticalEnd,
   NotebookText,
-  Lock,
-  Store,
   Users,
 } from "lucide-react";
 
@@ -73,7 +70,6 @@ const data = {
       url: "/performance",
       icon: ChartSpline,
     },
-
   ],
 };
 
