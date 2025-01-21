@@ -8,7 +8,7 @@ type StoreContainerProps = {
     children: React.ReactNode;
 };
 
-export default function StoreContainer({ children }: StoreContainerProps) {
+export default function CookieContainer({ children }: StoreContainerProps) {
     const { fetchUserData } = useUserDataStore();
     useEffect(() => {
         async function fetchData() {

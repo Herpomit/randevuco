@@ -6,10 +6,6 @@ import { Service } from "@/backend/models";
 import { dbDataParser } from "@/helpers/db-data-parser";
 import CustomeResponse from "@/helpers/response-message";
 
-
-
-
-
 export const createService = async (data: ServiceType, companyUuid: string) => {
     try {
 

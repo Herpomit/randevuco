@@ -36,15 +36,31 @@ export function LoginForm() {
     const response = await login(values);
 
     if (response.status === true) {
-      toast({
-        title: "Success",
-        description: response.message,
-        variant: "success",
-      });
       form.reset();
-      setTimeout(() => {
-        router.push("/");
-      }, 2000);
+      if (response.data.companyUuid) {
+        // Şirket varsa başarılı mesajı ve yönlendirme
+        toast({
+          title: "Success",
+          description: "Giriş başarılı, yönlendiriliyorsunuz...",
+          variant: "success",
+        });
+
+        setTimeout(() => {
+          router.push("/"); // Ana sayfaya yönlendirme
+        }, 1500);
+      } else {
+        // Şirket yoksa destructive mesaj ve yönlendirme
+        toast({
+          title: "Dikkat",
+          description: "Hesabınıza bağlı bir şirket bulunamadı. Lütfen devam edin.",
+          variant: "destructive",
+        });
+
+        const userUuid = response.data.userUuid; // Kullanıcı UUID alınır
+        setTimeout(() => {
+          router.push(`/auth/register?uid=${userUuid}`); // Register sayfasına yönlendirme
+        }, 1500);
+      }
     } else {
       toast({
         title: "Error",

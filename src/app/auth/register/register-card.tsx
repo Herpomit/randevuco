@@ -15,6 +15,8 @@ interface Props {
   setUuid: (uuid: string) => void;
 }
 
+
+
 export default function RegisterCard({ setStep, setUuid }: Props) {
   return (
     <>

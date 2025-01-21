@@ -18,16 +18,14 @@ import useUserDataStore from "@/stores/useUserDataStore";
 import { createService } from "./services-action";
 import { toast } from "@/hooks/use-toast";
 import { useServiceStore } from "@/stores/useServiceStore";
+
 const formSchema = z.object({
-  name: z.string().min(1, "Hizmet adı gereklidir.").max(255, "Hizmet adı 255 karakterden uzun olamaz."),
-  duration: z
+  name: z
     .string()
-    .refine((val) => !isNaN(Number(val)), "Süre bir sayı olmalıdır.")
-    .transform((val) => Number(val)), // Stringi sayıya çevirir
-  price: z
-    .string()
-    .refine((val) => !isNaN(Number(val.replace(",", "."))), "Fiyat bir sayı olmalıdır.")
-    .transform((val) => parseFloat(val.replace(",", "."))), // Virgülü noktaya çevirip sayıya çevirir
+    .min(1, "Hizmet adı gereklidir.")
+    .max(255, "Hizmet adı 255 karakterden uzun olamaz."),
+  duration: z.number().min(1, "Süre 1 dakikadan az olamaz.").max(1440, "Süre 24 saati geçemez."), // Number
+  price: z.number().min(0, "Fiyat negatif olamaz."), // Number
 });
 
 
@@ -39,8 +37,8 @@ export function AddServiceForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      duration: 30, // Varsayılan 30 dakika
-      price: 0, // Varsayılan fiyat 0
+      duration: 30, // Number
+      price: 0, // Number
     },
   });
 
@@ -72,13 +70,10 @@ export function AddServiceForm() {
             name="name"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold text-base">
-                  Hizmet Adı
-                </FormLabel>
+                <FormLabel className="font-semibold text-base">Hizmet Adı</FormLabel>
                 <FormControl>
                   <Input className="h-10 shadow-inner" {...field} />
                 </FormControl>
-
                 <FormMessage />
               </FormItem>
             )}
@@ -97,7 +92,7 @@ export function AddServiceForm() {
                     step="1"
                     min="1"
                     max="1440"
-                    onChange={(e) => field.onChange(e.target.value)} // Değeri string olarak işliyoruz
+                    onChange={(e) => field.onChange(Number(e.target.value))} // Değeri number olarak işle
                   />
                 </FormControl>
                 <FormMessage />
@@ -114,8 +109,10 @@ export function AddServiceForm() {
                 <FormControl>
                   <Input
                     {...field}
-                    type="text" // Virgül kullanımı için type="text" olarak bırakıyoruz
-                    onChange={(e) => field.onChange(e.target.value.replace(",", "."))} // Girdide otomatik olarak virgülü noktaya çevir
+                    type="number"
+                    step="0.01"
+                    min="0"
+                    onChange={(e) => field.onChange(Number(e.target.value))} // Değeri number olarak işle
                   />
                 </FormControl>
                 <FormMessage />

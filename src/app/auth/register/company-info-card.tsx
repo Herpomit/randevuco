@@ -14,6 +14,7 @@ import ModalContainer from "@/components/modals/modal-container";
 
 interface Props {
   setStep: (step: number) => void;
+  setUserUuid: (uuid: string) => void;
   userUuid: string;
   step: number;
 }

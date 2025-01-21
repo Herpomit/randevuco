@@ -89,16 +89,21 @@ export const login = async (user: LoginType) => {
       });
     }
 
-    const companyUuid = await Company.findOne({
+    const company = await Company.findOne({
       where: {
         userUuid: existUser.dataValues.uuid,
       },
     });
 
-    if (!companyUuid) {
+    if (!company) {
+      // Şirket yoksa farklı bir mesaj döndür
       return CustomeResponse({
-        status: false,
-        message: "Kullanıcı zaten bir firma kaydı var",
+        status: true,
+        message: "Şirket oluşturulmamış, lütfen devam edin.",
+        data: {
+          companyUuid: "",
+          userUuid: existUser.dataValues.uuid,
+        },
       });
     }
 
@@ -108,7 +113,7 @@ export const login = async (user: LoginType) => {
       name: await DataDecrypt(existUser.dataValues.name),
       phone: await DataDecrypt(existUser.dataValues.phone),
       isCompanyCreated: existUser.dataValues.isCompanyCreated,
-      companyUuid: companyUuid.dataValues.uuid
+      companyUuid: company?.dataValues.uuid || "",
     };
 
     const token = await createToken(payload);
@@ -123,9 +128,14 @@ export const login = async (user: LoginType) => {
       maxAge: 60 * 60 * 24 * 30, // 1 month
     });
 
+    // Şirket varsa başarı mesajı gönder
     return CustomeResponse({
       status: true,
-      message: "Giriş başarılı",
+      message: "Giriş başarılı",
+      data: {
+        companyUuid: company.dataValues.uuid,
+        userUuid: existUser.dataValues.uuid,
+      },
     });
   } catch (error) {
     if (error instanceof Error) {
@@ -136,7 +146,7 @@ export const login = async (user: LoginType) => {
     }
     return CustomeResponse({
       status: false,
-      message: "Giriş başarısız",
+      message: "Giriş başarısız",
     });
   }
 };

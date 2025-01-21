@@ -56,7 +56,7 @@ export const createCompany = async (data: CompanyType) => {
 
         return CustomeResponse({
             status: true,
-            message: "Firma olusturuldu.",
+            message: "Firma olusturuldu. Lütfen tekrar giriş yapınız.",
         });
 
     } catch (error) {
