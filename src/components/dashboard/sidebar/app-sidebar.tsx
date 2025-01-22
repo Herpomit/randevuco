@@ -7,6 +7,7 @@ import {
   CircleUserRound,
   GalleryVerticalEnd,
   NotebookText,
+  Settings,
   Users,
 } from "lucide-react";
 
@@ -19,6 +20,7 @@ import {
 import { TeamSwitcher } from "./team-switcher";
 import { NavMain } from "./nav-main";
 import { NavUser } from "./nav-user";
+import UpgradePlan from "./upgrade-plan";
 
 // This is sample data.
 const data = {
@@ -70,6 +72,29 @@ const data = {
       url: "/performance",
       icon: ChartSpline,
     },
+
+  ],
+  navDropdown: [
+    {
+      title: "Ayarlar",
+      url: "/settings",
+      icon: Settings,
+      isActive: true,
+      items: [
+        {
+          title: "History",
+          url: "#",
+        },
+        {
+          title: "Starred",
+          url: "#",
+        },
+        {
+          title: "Settings",
+          url: "#",
+        },
+      ],
+    },
   ],
 };
 
@@ -83,6 +108,7 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
         <NavMain items={data.navMain} />
       </SidebarContent>
       <SidebarFooter>
+        <UpgradePlan />
         <NavUser user={data.user} />
       </SidebarFooter>
     </Sidebar>

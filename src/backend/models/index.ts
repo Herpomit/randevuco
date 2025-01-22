@@ -1,8 +1,13 @@
 import Company from "./definations/Company";
+import Employee from "./definations/Employee";
 import Service from "./definations/Service";
 import User from "./definations/User";
+import EventEmployee from "./relationships/EventEmployee";
+import ServiceEmployee from "./relationships/ServiceEmployee";
+import Event from "./definations/Event";
+import EmployeeWorkSchedule from "./definations/EmployeeWorkSchedule";
 
-export { User, Company, Service };
+export { User, Company, Service, Employee, Event, ServiceEmployee, EventEmployee, EmployeeWorkSchedule };
 
 User.hasOne(Company, {
   foreignKey: "userUuid",
@@ -28,14 +33,68 @@ Service.belongsTo(Company, {
   as: "company",
 });
 
-// OfficeUser.hasMany(DiscountCode, {
-//     foreignKey: "addedBy",
-//     sourceKey: "uuid",
-//     as: "discountCodes",
-//   });
+Company.hasMany(Employee, {
+  foreignKey: "companyUuid",
+  sourceKey: "uuid",
+  as: "employees",
+});
 
-//   DiscountCode.belongsTo(OfficeUser, {
-//     foreignKey: "addedBy",
-//     targetKey: "uuid",
-//     as: "officeUser",
-//   });
+Employee.belongsTo(Company, {
+  foreignKey: "companyUuid",
+  targetKey: "uuid",
+  as: "company",
+});
+
+Company.hasMany(Event, {
+  foreignKey: "companyUuid",
+  sourceKey: "uuid",
+  as: "events",
+});
+
+Event.belongsTo(Company, {
+  foreignKey: "companyUuid",
+  targetKey: "uuid",
+  as: "company",
+});
+
+Service.belongsToMany(Employee, {
+  through: ServiceEmployee,
+  foreignKey: "serviceUuid",
+  otherKey: "employeeUuid",
+  as: "employees",
+});
+
+Employee.belongsToMany(Service, {
+  through: ServiceEmployee,
+  foreignKey: "employeeUuid",
+  otherKey: "serviceUuid",
+  as: "services",
+});
+
+Event.belongsToMany(Employee, {
+  through: EventEmployee,
+  foreignKey: "eventUuid",
+  otherKey: "employeeUuid",
+  as: "employees",
+});
+
+Employee.belongsToMany(Event, {
+  through: EventEmployee,
+  foreignKey: "employeeUuid",
+  otherKey: "eventUuid",
+  as: "events",
+});
+
+Employee.hasMany(EmployeeWorkSchedule, {
+  foreignKey: "employeeUuid",
+  sourceKey: "uuid",
+  as: "workSchedules",
+});
+
+EmployeeWorkSchedule.belongsTo(Employee, {
+  foreignKey: "employeeUuid",
+  targetKey: "uuid",
+  as: "employee",
+});
+
+

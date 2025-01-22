@@ -21,11 +21,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { RefreshCw, Trash2 } from "lucide-react";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useServiceStore } from "@/stores/useServiceStore";
 import { deleteService, updateService } from "./services-action";
 import { toast } from "@/hooks/use-toast";
 import useUserDataStore from "@/stores/useUserDataStore";
+import ModalContainer from "@/components/modals/modal-container";
+import DeleteForm from "@/components/dashboard/pages/delete-form";
 
 const formSchema = z.object({
   name: z.string().min(1, "Hizmet adı zorunludur").max(255),
@@ -62,6 +64,7 @@ const formSchema = z.object({
 export function EditServiceForm() {
   const { selectedService, fetchServices, clearSelectedService } = useServiceStore();
   const { userData } = useUserDataStore();
+  const [open, setOpen] = useState(false);
 
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
@@ -164,6 +167,7 @@ export function EditServiceForm() {
         partialAmount: undefined,
       }); // Formu sıfırla
       clearSelectedService(); // Seçili hizmeti temizle
+      setOpen(false);
     } else {
       toast({
         title: "Error",
@@ -315,7 +319,7 @@ export function EditServiceForm() {
               )}
             </>
           )}
-          <div className="flex items-center justify-center gap-2">
+          <div className="flex items-center justify-center gap-2 ">
             <Button
               className="bg-[#6857f6] text-white hover:bg-[#5648C9] text-base w-full"
               type="submit"
@@ -323,14 +327,33 @@ export function EditServiceForm() {
               <RefreshCw />
               Güncelle
             </Button>
-            <Button
+            <ModalContainer
+              button={
+                <div onClick={() => setOpen(true)} className="flex items-center gap-2 bg-red-500 h-9 text-white  justify-center hover:bg-red-700 p-2 rounded-lg ">
+                  <Trash2 className="w-4 h-4" /> Sil
+                </div>
+              }
+              triggerClass=" w-full"
+              contentClass="max-w-xs md:max-w-xl lg:max-w-xl"
+              title={
+                <p className="flex items-center gap-2 ">
+                  <Trash2 className="" /> Hizmet Sil
+                </p>
+              }
+              isOpen={open}
+              setOpen={setOpen} // Modal kapatma fonksiyonunu ekledik
+
+            >
+              <DeleteForm deleteFunc={onDelete} />
+            </ModalContainer>
+            {/* <Button
               className="bg-red-500 text-white hover:bg-red-700 text-base w-full"
               type="button"
               onClick={() => onDelete()}
             >
               <Trash2 />
               Sil
-            </Button>
+            </Button> */}
           </div>
         </div>
       </form>

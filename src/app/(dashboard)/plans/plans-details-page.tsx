@@ -4,8 +4,8 @@ const pricingTiers: PricingTier[] = [
   {
     name: "Plus",
     description: "Bireysel ve küçük işletmeler için",
-    monthlyPrice: 590,
-    yearlyPrice: 4900,
+    monthlyPrice: 790,
+    yearlyPrice: 7110,
     features: [
       { text: "150 Randevu/Aylık", included: true },
       { text: "Sınırsız Randevu Hatırlatıcı", included: true },
@@ -19,8 +19,8 @@ const pricingTiers: PricingTier[] = [
   {
     name: "Pro",
     description: "Orta ölçekli işletmeler için",
-    monthlyPrice: 990,
-    yearlyPrice: 7900,
+    monthlyPrice: 1290,
+    yearlyPrice: 12900,
     features: [
       { text: "400 Randevu/Aylık", included: true },
       { text: "Sınırsız Randevu Hatırlatıcı", included: true },
@@ -35,8 +35,8 @@ const pricingTiers: PricingTier[] = [
   {
     name: "Premium",
     description: "Yoğun randevu alan işletmeler için",
-    monthlyPrice: 1490,
-    yearlyPrice: 10900,
+    monthlyPrice: 1590,
+    yearlyPrice: 15300,
     features: [
       { text: "Sınırsız Randevu", included: true },
       { text: "Sınırsız Randevu Hatırlatıcı", included: true },

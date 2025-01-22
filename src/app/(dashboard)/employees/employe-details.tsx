@@ -1,10 +1,13 @@
 import { Card } from "@/components/ui/card";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { EmployeeFirstForm } from "./employee-first-form";
+import { EmployeeEditForm } from "./employee-edit-form";
 import EmployeeShiftForm from "./employe-shift-form";
 import EmployeeBlockList from "./employee-block-list";
+import { EmployeeType } from "@/backend/interfaces/employee-type";
+
 
 export default function EmployeeDetails() {
+
   return (
     <>
       <Card>
@@ -30,7 +33,7 @@ export default function EmployeeDetails() {
             </TabsTrigger>
           </TabsList>
           <TabsContent value="employeeInfo" className="p-2">
-            <EmployeeFirstForm />
+            <EmployeeEditForm />
           </TabsContent>
           <TabsContent
             value="workingTime"

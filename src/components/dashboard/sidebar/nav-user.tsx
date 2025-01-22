@@ -25,6 +25,7 @@ import {
   SidebarMenuItem,
   useSidebar,
 } from "@/components/ui/sidebar";
+import Link from "next/link";
 
 export function NavUser({
   user,
@@ -77,17 +78,22 @@ export function NavUser({
             </DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Sparkles />
-                Yükelt
-              </DropdownMenuItem>
+              <Link href="/plans" className="w-full">
+                <DropdownMenuItem className="text-[#6857f6]">
+                  <Sparkles />
+                  Yükselt
+                </DropdownMenuItem>
+              </Link>
+
             </DropdownMenuGroup>
             <DropdownMenuSeparator />
             <DropdownMenuGroup>
-              <DropdownMenuItem>
-                <Settings />
-                Ayarlar
-              </DropdownMenuItem>
+              <Link href="/settings" className="w-full">
+                <DropdownMenuItem>
+                  <Settings />
+                  Ayarlar
+                </DropdownMenuItem>
+              </Link>
               <DropdownMenuItem>
                 <MessagesSquare />
                 Canlı Destek

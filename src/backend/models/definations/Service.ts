@@ -29,6 +29,25 @@ Service.init({
         type: DataTypes.CHAR(36),
         allowNull: false,
     },
+    showOnline: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
+    acceptPayment: {
+        type: DataTypes.BOOLEAN,
+        allowNull: false,
+        defaultValue: false,
+    },
+    paymentType: {
+        type: DataTypes.ENUM("full", "partial"),
+        allowNull: false,
+        defaultValue: "full",
+    },
+    partialAmount: {
+        type: DataTypes.DECIMAL(10, 2),
+        allowNull: true,
+    }
 }, {
     sequelize: db,
     modelName: "Service",

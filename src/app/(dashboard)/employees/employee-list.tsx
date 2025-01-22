@@ -1,6 +1,4 @@
-"use client";
-
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Table,
   TableBody,
@@ -9,24 +7,32 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
+import useEmployeeStore from "@/stores/useEmployeeStore";
+import useUserDataStore from "@/stores/useUserDataStore";
+import { EmployeeType } from "@/backend/interfaces/employee-type";
 
 export type Employee = {
   name: string;
   phone: string;
 };
 
-interface EmployeeListProps {
-  employees: Employee[];
-  onEmployeeSelect: (service: Employee) => void;
-}
-
-export default function EmployeeList({
-  employees,
-  onEmployeeSelect,
-}: EmployeeListProps) {
+export default function EmployeeList() {
   const [selectedEmployeeId, setSelectedEmployeeId] = useState<number | null>(
     null
   );
+  const { userData } = useUserDataStore();
+  const { fetchEmployees, employees, setSelectedEmployee } = useEmployeeStore();
+
+  useEffect(() => {
+
+    async function fetchData() {
+      if (userData?.companyUuid) {
+        await fetchEmployees(userData.companyUuid);
+      }
+    }
+
+    fetchData();
+  }, [fetchEmployees, userData]);
 
   return (
     <Table>
@@ -39,24 +45,39 @@ export default function EmployeeList({
       </TableHeader>
 
       <TableBody>
-        {employees.map((service, index) => (
-          <TableRow
-            key={index}
-            onClick={() => {
-              onEmployeeSelect(service);
-              setSelectedEmployeeId(index);
-            }}
-            className={`cursor-pointer hover:bg-gray-100 ${selectedEmployeeId === index ? "bg-muted" : ""
-              }`}
-          >
+        {employees.length > 0 ? (
+          employees.map((employee, index) => (
+            <TableRow
+              key={index}
+              onClick={() => {
+                setSelectedEmployee(employee);
+                setSelectedEmployeeId(index);
+              }}
+              className={`cursor-pointer hover:bg-gray-100 ${selectedEmployeeId === index ? "bg-muted" : ""
+                }`}
+            >
 
-            <TableCell>{service.name}</TableCell>
-            <TableCell>+90 (545) 545 45 45</TableCell>
-            <TableCell>
-              <div className=" bg-blue-400 h-6 w-6 rounded-full"></div>
+              <TableCell>{employee.name}</TableCell>
+              <TableCell>{employee.phone}</TableCell>
+              <TableCell>
+                <div style={{
+                  backgroundColor: employee.color,
+                  width: "20px",
+                  height: "20px",
+                  borderRadius: "50%",
+                }}
+                  title={employee.color} // Tooltip olarak renk kodunu göstermek için
+                ></div>
+              </TableCell>
+            </TableRow>
+          ))
+        ) : (
+          <TableRow>
+            <TableCell colSpan={3} className="h-24 text-center">
+              Personel Bulunmuyor
             </TableCell>
           </TableRow>
-        ))}
+        )}
       </TableBody>
     </Table>
   );

@@ -150,3 +150,13 @@ export const login = async (user: LoginType) => {
     });
   }
 };
+
+
+export const logout = async () => {
+  const cookieStore = await cookies();
+  cookieStore.delete("uToken");
+  return CustomeResponse({
+    status: true,
+    message: "Çıkış Yapıldı!",
+  });
+};

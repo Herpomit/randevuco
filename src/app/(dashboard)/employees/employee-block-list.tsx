@@ -11,6 +11,7 @@
 import { UserRoundX } from "lucide-react";
 import NotBlockYet from "./not-block-yet";
 import ModalContainer from "@/components/modals/modal-container";
+import { useState } from "react";
 
 export type EmployeeBlock = {
   name: string;
@@ -21,12 +22,14 @@ interface EmployeeBlockListProps {
   onEmployeeBlockSelect: (service: EmployeeBlock) => void;
 }
 
-export default function EmployeeBlockBlockList({}: //   employeeBlocks,
-//   onEmployeeBlockSelect,
-EmployeeBlockListProps) {
+export default function EmployeeBlockBlockList({ }: //   employeeBlocks,
+  //   onEmployeeBlockSelect,
+  EmployeeBlockListProps) {
   //   const [selectedEmployeeBlockId, setSelectedEmployeeBlockId] = useState<
   //     number | null
   //   >(null);
+
+  const [open, setOpen] = useState(false);
 
   return (
     <>
@@ -71,6 +74,8 @@ EmployeeBlockListProps) {
             </div>
           }
           title="Yeni Bloklama"
+          isOpen={open}
+          setOpen={setOpen}
         >
           fdfd
         </ModalContainer>

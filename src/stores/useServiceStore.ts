@@ -22,7 +22,6 @@ export const useServiceStore = create<ServiceStore>((set, get) => ({
         const shouldFetch = forceFetch || timeStamp - get().timeStamp > 300000; // 300,000 ms = 5 dakika
         if (shouldFetch) {
             const services = await fetchServices(companyUuid);
-            console.log(services);
             set({ services: services.data, timeStamp });
         } else {
             set({ timeStamp });

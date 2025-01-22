@@ -1,7 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import { QueryTypes } from "sequelize";
+import { Model, QueryTypes } from "sequelize";
 import { db } from "../db";
-import { Company, Service, User } from "../models";
+import { Company, Employee, EmployeeWorkSchedule, Event, EventEmployee, Service, ServiceEmployee, User } from "../models";
 
 const models = [
   {
@@ -15,6 +15,26 @@ const models = [
   {
     name: "Service",
     model: Service,
+  },
+  {
+    name: "Employee",
+    model: Employee,
+  },
+  {
+    name: "Event",
+    model: Event
+  },
+  {
+    name: "EventEmployee",
+    model: EventEmployee
+  },
+  {
+    name: "ServiceEmployee",
+    model: ServiceEmployee
+  },
+  {
+    name: "EmployeeWorkSchedule",
+    model: EmployeeWorkSchedule
   }
 ];
 

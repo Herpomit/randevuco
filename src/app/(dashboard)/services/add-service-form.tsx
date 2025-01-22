@@ -24,12 +24,26 @@ const formSchema = z.object({
     .string()
     .min(1, "Hizmet adı gereklidir.")
     .max(255, "Hizmet adı 255 karakterden uzun olamaz."),
-  duration: z.number().min(1, "Süre 1 dakikadan az olamaz.").max(1440, "Süre 24 saati geçemez."), // Number
-  price: z.number().min(0, "Fiyat negatif olamaz."), // Number
+  duration: z
+    .string()
+    .refine((val) => /^\d+$/.test(val), "Sadece rakam girebilirsiniz.")
+    .refine((val) => parseInt(val) >= 1 && parseInt(val) <= 1440, {
+      message: "Süre 1 ile 1440 dakika arasında olmalıdır.",
+    }),
+  price: z
+    .string()
+    .refine((val) => /^\d*\.?\d*$/.test(val), "Sadece rakam ve ondalık nokta girebilirsiniz.")
+    .refine((val) => parseFloat(val) >= 0, {
+      message: "Fiyat negatif olamaz.",
+    }),
 });
 
 
-export function AddServiceForm() {
+type AddServiceFormProps = {
+  setOpen: (open: boolean) => void;
+};
+
+export function AddServiceForm({ setOpen }: AddServiceFormProps) {
   const { userData } = useUserDataStore();
   const { fetchServices } = useServiceStore();
 
@@ -37,13 +51,20 @@ export function AddServiceForm() {
     resolver: zodResolver(formSchema),
     defaultValues: {
       name: "",
-      duration: 30, // Number
-      price: 0, // Number
+      duration: "0", // Varsayılan olarak string
+      price: "0", // Varsayılan olarak string
     },
   });
 
   async function onSubmit(values: z.infer<typeof formSchema>) {
-    const response = await createService(values, userData!.companyUuid!);
+    const transformedValues = {
+      ...values,
+      duration: Number(values.duration),
+      price: Number(values.price),
+    };
+
+
+    const response = await createService(transformedValues, userData!.companyUuid!);
     if (response.status) {
       toast({
         title: "Success",
@@ -52,6 +73,7 @@ export function AddServiceForm() {
       });
       form.reset();
       fetchServices(userData!.companyUuid!, true);
+      setOpen(false);
     } else {
       toast({
         title: "Error",
@@ -84,15 +106,15 @@ export function AddServiceForm() {
             name="duration"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold text-base">Hizmet Süresi (Dakika)</FormLabel>
+                <FormLabel className="font-semibold text-base">
+                  Hizmet Süresi (Dakika)
+                </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    type="number"
-                    step="1"
-                    min="1"
-                    max="1440"
-                    onChange={(e) => field.onChange(Number(e.target.value))} // Değeri number olarak işle
+                    type="text" // type'ı text yaptık
+                    inputMode="numeric" // Mobil cihazlarda sadece sayı klavyesini gösterir
+                    pattern="[0-9]*" // HTML5 doğrulama için sadece rakamlara izin verir
                   />
                 </FormControl>
                 <FormMessage />
@@ -105,14 +127,15 @@ export function AddServiceForm() {
             name="price"
             render={({ field }) => (
               <FormItem>
-                <FormLabel className="font-semibold text-base">Hizmet Fiyatı (₺)</FormLabel>
+                <FormLabel className="font-semibold text-base">
+                  Hizmet Fiyatı (₺)
+                </FormLabel>
                 <FormControl>
                   <Input
                     {...field}
-                    type="number"
-                    step="0.01"
-                    min="0"
-                    onChange={(e) => field.onChange(Number(e.target.value))} // Değeri number olarak işle
+                    type="text"
+                    inputMode="decimal" // Ondalık sayı klavyesi
+                    pattern="^\d*\.?\d*$" // Sayı ve ondalık nokta için regex
                   />
                 </FormControl>
                 <FormMessage />

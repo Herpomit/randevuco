@@ -23,6 +23,9 @@ export default function CompanyInfoCard({ userUuid }: Props) {
   const [position, setPosition] = useState<{ lat: number; lng: number } | null>(
     null
   );
+
+  const [open, setOpen] = useState(false);
+
   return (
     <>
       <div className=" w-full md:px-[10%] md:-mt-12 flex items-center justify-center">
@@ -66,6 +69,8 @@ export default function CompanyInfoCard({ userUuid }: Props) {
                         triggerClass="text-black"
                         contentClass="max-w-xs md:max-w-3xl lg:max-w-5xl"
                         title="Kullanım Koşulları"
+                        isOpen={open}
+                        setOpen={setOpen}
                       >
                         Lorem ipsum dolor sit amet consectetur adipisicing elit.
                         Perspiciatis asperiores vitae ipsam deleniti ducimus
@@ -80,6 +85,8 @@ export default function CompanyInfoCard({ userUuid }: Props) {
                           triggerClass="text-black"
                           contentClass="max-w-xs md:max-w-3xl lg:max-w-5xl"
                           title="Gizlilik Politikası"
+                          isOpen={open}
+                          setOpen={setOpen}
                         >
                           Lorem ipsum dolor sit amet consectetur adipisicing
                           elit. Quasi quia debitis earum quos perspiciatis
